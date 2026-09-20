@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMILE CO. // ARCHIVE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- VHS OVERLAY -->
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+    <div class="tracking-line"></div>
+
+    <!-- ================= ACCESS PAGE ================= -->
+
+    <div id="accessPage" class="page">
+
+        <div class="hud top-left">
+            SMILE CO.<br>
+            INDUSTRIAL DIVISION
+        </div>
+
+        <div class="hud top-right">
+            ARCHIVE // 04<br>
+            CAM // 25
+        </div>
+
+        <div class="hud bottom-left">
+            REC ●<br>
+            VHS-1987
+        </div>
+
+        <div class="hud bottom-right">
+            SIGNAL: UNSTABLE
+        </div>
+
+        <main class="terminal">
+
+            <div class="glitch-logo">
+                SMILE CO.
+            </div>
+
+            <div class="sub-logo">
+                ARCHIVE TERMINAL
+            </div>
+
+            <div class="line"></div>
+
+            <div class="warning">
+                [ RESTRICTED ACCESS ]
+            </div>
+
+            <p class="description">
+                THIS TERMINAL CONTAINS<br>
+                CONFIDENTIAL FACTORY RECORDS.
+            </p>
+
+            <div class="input-title">
+                ENTER ARCHIVE CODE
+            </div>
+
+            <div class="input-box">
+
+                <input
+                    id="archiveCode"
+                    type="text"
+                    placeholder="____-__"
+                    maxlength="7"
+                    autocomplete="off"
+                >
+
+                <button id="accessButton">
+                    ACCESS
+                </button>
+
+            </div>
+
+            <div id="errorMessage">
+                SYSTEM READY...
+            </div>
+
+            <div class="terminal-footer">
+                SMILE CO. INTERNAL ARCHIVE<br>
+                UNAUTHORIZED ACCESS WILL BE LOGGED
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= TRAILER PAGE ================= -->
+
+    <div id="trailerPage" class="page hidden">
+
+        <div class="hud top-left">
+            SMILE CO.<br>
+            ARCHIVE ACCESS
+        </div>
+
+        <div class="hud top-right">
+            ACCESS: GRANTED<br>
+            FILE: 0425-13
+        </div>
+
+        <div class="hud bottom-left">
+            REC ●<br>
+            SIGNAL: 71%
+        </div>
+
+        <div class="hud bottom-right">
+            CAM 04 // FACTORY
+        </div>
+
+
+        <main class="trailer-content">
+
+            <div class="access-granted">
+                ACCESS GRANTED
+            </div>
+
+            <div class="glitch-title">
+                GAMEPLAY TRAILER 2
+            </div>
+
+            <div class="subtitle">
+                SMILE CO. FACTORY // ARCHIVE FOOTAGE
+            </div>
+
+            <div class="line"></div>
+
+            <div class="message">
+                SOMETHING IS COMING BACK.
+            </div>
+
+
+            <!-- COUNTDOWN -->
+
+            <div class="countdown">
+
+                <div class="count-box">
+                    <span id="days">00</span>
+                    <label>DAYS</label>
+                </div>
+
+                <div class="separator">:</div>
+
+                <div class="count-box">
+                    <span id="hours">00</span>
+                    <label>HOURS</label>
+                </div>
+
+                <div class="separator">:</div>
+
+                <div class="count-box">
+                    <span id="minutes">00</span>
+                    <label>MINUTES</label>
+                </div>
+
+                <div class="separator">:</div>
+
+                <div class="count-box">
+                    <span id="seconds">00</span>
+                    <label>SECONDS</label>
+                </div>
+
+            </div>
+
+
+            <div class="classified">
+
+                <div class="classified-header">
+                    ARCHIVE MESSAGE
+                </div>
+
+                <div class="classified-text">
+                    DO NOT TRUST THE SMILE.
+                </div>
+
+            </div>
+
+
+            <div class="footer-warning">
+                © SMILE CO. // ALL RECORDS ARE PROPERTY OF SMILE CO.
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script>
+
+        /* =========================
+           ARCHIVE CODE
+        ========================= */
+
+        const correctCode = "0425-13";
+
+        const input = document.getElementById("archiveCode");
+        const button = document.getElementById("accessButton");
+        const error = document.getElementById("errorMessage");
+
+        button.addEventListener("click", unlock);
+
+        input.addEventListener("keydown", function(event) {
+
+            if (event.key === "Enter") {
+                unlock();
+            }
+
+        });
+
+
+        function unlock() {
+
+            const entered =
+                input.value.trim().toUpperCase();
+
+            if (entered === correctCode) {
+
+                error.textContent = "ACCESS GRANTED";
+
+                document.body.classList.add("system-break");
+
+                setTimeout(() => {
+
+                    document
+                        .getElementById("accessPage")
+                        .classList.add("hidden");
+
+                    document
+                        .getElementById("trailerPage")
+                        .classList.remove("hidden");
+
+                    startCountdown();
+
+                }, 700);
+
+            } else {
+
+                error.textContent =
+                    "ERROR // INVALID ARCHIVE CODE";
+
+                input.classList.remove("shake");
+
+                void input.offsetWidth;
+
+                input.classList.add("shake");
+
+            }
+
+        }
+
+
+        /* =========================
+           COUNTDOWN
+        ========================= */
+
+        function startCountdown() {
+
+            // 25 November 2026 — 8:00 PM UAE time
+
+            const target =
+                new Date(
+                    "2026-11-25T20:00:00+04:00"
+                ).getTime();
+
+
+            function update() {
+
+                const now =
+                    new Date().getTime();
+
+                const difference =
+                    target - now;
+
+
+                if (difference <= 0) {
+
+                    document.querySelector(".countdown")
+                        .innerHTML =
+                        "<div class='released'>TRAILER AVAILABLE</div>";
+
+                    return;
+
+                }
+
+
+                const days =
+                    Math.floor(
+                        difference /
+                        (1000 * 60 * 60 * 24)
+                    );
+
+
+                const hours =
+                    Math.floor(
+                        (difference %
+                        (1000 * 60 * 60 * 24)) /
+                        (1000 * 60 * 60)
+                    );
+
+
+                const minutes =
+                    Math.floor(
+                        (difference %
+                        (1000 * 60 * 60)) /
+                        (1000 * 60)
+                    );
+
+
+                const seconds =
+                    Math.floor(
+                        (difference %
+                        (1000 * 60)) /
+                        1000
+                    );
+
+
+                document.getElementById("days")
+                    .textContent =
+                    String(days).padStart(2, "0");
+
+                document.getElementById("hours")
+                    .textContent =
+                    String(hours).padStart(2, "0");
+
+                document.getElementById("minutes")
+                    .textContent =
+                    String(minutes).padStart(2, "0");
+
+                document.getElementById("seconds")
+                    .textContent =
+                    String(seconds).padStart(2, "0");
+
+            }
+
+
+            update();
+
+            setInterval(update, 1000);
+
+        }
+
+    </script>
+
+</body>
+</html>

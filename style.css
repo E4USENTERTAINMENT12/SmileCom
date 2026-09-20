@@ -1,0 +1,946 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+
+body {
+    background: #020202;
+    color: #d5d5d5;
+
+    font-family:
+        "Share Tech Mono",
+        monospace;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+.page {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            #171717 0%,
+            #080808 45%,
+            #010101 100%
+        );
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   VHS SCREEN
+========================= */
+
+.scanlines {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    pointer-events: none;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,.035) 0px,
+            rgba(255,255,255,.035) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+}
+
+
+.noise {
+    position: fixed;
+
+    inset: -100%;
+
+    z-index: 101;
+
+    pointer-events: none;
+
+    opacity: .055;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+
+    animation:
+        noiseJump .13s steps(2) infinite;
+}
+
+
+.tracking-line {
+    position: fixed;
+
+    left: 0;
+
+    top: -10px;
+
+    width: 100%;
+
+    height: 4px;
+
+    z-index: 102;
+
+    pointer-events: none;
+
+    background: rgba(255,255,255,.15);
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.15);
+
+    animation:
+        tracking 5s steps(30) infinite;
+}
+
+
+@keyframes tracking {
+
+    0% {
+        top: -10px;
+    }
+
+    100% {
+        top: 110vh;
+    }
+
+}
+
+
+@keyframes noiseJump {
+
+    0% {
+        transform: translate(0,0);
+    }
+
+    25% {
+        transform: translate(-3%,2%);
+    }
+
+    50% {
+        transform: translate(2%,-3%);
+    }
+
+    75% {
+        transform: translate(3%,2%);
+    }
+
+    100% {
+        transform: translate(-2%,-1%);
+    }
+
+}
+
+
+/* =========================
+   HUD
+========================= */
+
+.hud {
+    position: absolute;
+
+    z-index: 10;
+
+    color: #666;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    line-height: 1.6;
+}
+
+
+.top-left {
+    top: 22px;
+    left: 25px;
+}
+
+
+.top-right {
+    top: 22px;
+    right: 25px;
+    text-align: right;
+}
+
+
+.bottom-left {
+    bottom: 22px;
+    left: 25px;
+}
+
+
+.bottom-right {
+    bottom: 22px;
+    right: 25px;
+    text-align: right;
+}
+
+
+/* =========================
+   TERMINAL
+========================= */
+
+.terminal {
+
+    position: relative;
+
+    width: min(720px, 88%);
+
+    padding: 70px 55px;
+
+    text-align: center;
+
+    border: 1px solid #292929;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.01),
+            rgba(255,255,255,.025),
+            rgba(255,255,255,.01)
+        );
+
+    box-shadow:
+        0 0 60px rgba(0,0,0,.9),
+        inset 0 0 80px rgba(0,0,0,.8);
+
+    animation:
+        terminalJolt 8s steps(1) infinite;
+}
+
+
+@keyframes terminalJolt {
+
+    0%, 87%, 100% {
+        transform: translate(0,0);
+    }
+
+    88% {
+        transform: translate(-6px,1px);
+    }
+
+    89% {
+        transform: translate(5px,-2px);
+    }
+
+    90% {
+        transform: translate(-2px,0);
+    }
+
+}
+
+
+.glitch-logo {
+
+    font-size:
+        clamp(48px, 9vw, 100px);
+
+    letter-spacing: 13px;
+
+    color: #ddd;
+
+    position: relative;
+
+    animation:
+        textGlitch 6s steps(1) infinite;
+}
+
+
+@keyframes textGlitch {
+
+    0%, 73%, 100% {
+        transform: translate(0);
+    }
+
+    74% {
+        transform: translate(-5px,0);
+        text-shadow:
+            4px 0 #777;
+    }
+
+    75% {
+        transform: translate(7px,-1px);
+        text-shadow:
+            -5px 0 #333;
+    }
+
+    76% {
+        transform: translate(-2px,1px);
+    }
+
+}
+
+
+.sub-logo {
+
+    margin-top: 12px;
+
+    color: #555;
+
+    font-size: 11px;
+
+    letter-spacing: 5px;
+}
+
+
+.line {
+
+    width: 100%;
+
+    height: 1px;
+
+    margin: 38px 0;
+
+    background: #292929;
+}
+
+
+.warning {
+
+    display: inline-block;
+
+    border: 1px solid #444;
+
+    padding: 8px 18px;
+
+    color: #999;
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+
+    animation:
+        flicker 5s steps(1) infinite;
+}
+
+
+@keyframes flicker {
+
+    0%, 20%, 23%, 60%, 100% {
+        opacity: 1;
+    }
+
+    21% {
+        opacity: .2;
+    }
+
+    22% {
+        opacity: .8;
+    }
+
+    61% {
+        opacity: .35;
+    }
+
+    62% {
+        opacity: 1;
+    }
+
+}
+
+
+.description {
+
+    margin: 35px 0;
+
+    color: #666;
+
+    font-size: 12px;
+
+    line-height: 2;
+
+    letter-spacing: 2px;
+}
+
+
+.input-title {
+
+    margin-bottom: 12px;
+
+    color: #888;
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.input-box {
+
+    display: flex;
+
+    width: 100%;
+
+    max-width: 520px;
+
+    margin: auto;
+}
+
+
+input {
+
+    width: 100%;
+
+    background: #050505;
+
+    border: 1px solid #3b3b3b;
+
+    border-right: 0;
+
+    outline: none;
+
+    color: #ddd;
+
+    font-family: inherit;
+
+    font-size: 17px;
+
+    letter-spacing: 6px;
+
+    text-align: center;
+
+    padding: 17px;
+}
+
+
+input::placeholder {
+    color: #333;
+}
+
+
+input:focus {
+
+    border-color: #777;
+
+    background: #090909;
+}
+
+
+button {
+
+    width: 125px;
+
+    border: 1px solid #aaa;
+
+    background: #bbb;
+
+    color: #080808;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+}
+
+
+button:hover {
+
+    background: #eee;
+
+    animation:
+        buttonGlitch .2s steps(2) infinite;
+}
+
+
+@keyframes buttonGlitch {
+
+    0% {
+        transform: translate(0);
+    }
+
+    50% {
+        transform: translate(-3px,1px);
+    }
+
+    100% {
+        transform: translate(3px,-1px);
+    }
+
+}
+
+
+#errorMessage {
+
+    height: 25px;
+
+    margin-top: 15px;
+
+    color: #555;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+.shake {
+
+    animation:
+        shake .35s steps(3);
+}
+
+
+@keyframes shake {
+
+    0% {
+        transform: translate(0);
+    }
+
+    25% {
+        transform: translate(-8px);
+    }
+
+    50% {
+        transform: translate(8px);
+    }
+
+    75% {
+        transform: translate(-5px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+
+}
+
+
+.terminal-footer {
+
+    margin-top: 45px;
+
+    color: #333;
+
+    font-size: 9px;
+
+    line-height: 2;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   TRAILER PAGE
+========================= */
+
+.trailer-content {
+
+    width: min(1100px, 90%);
+
+    text-align: center;
+}
+
+
+.access-granted {
+
+    color: #777;
+
+    font-size: 11px;
+
+    letter-spacing: 6px;
+
+    margin-bottom: 25px;
+
+    animation:
+        flicker 4s steps(1) infinite;
+}
+
+
+.glitch-title {
+
+    font-size:
+        clamp(38px, 8vw, 95px);
+
+    letter-spacing: 7px;
+
+    color: #ddd;
+
+    animation:
+        titleBreak 7s steps(1) infinite;
+}
+
+
+@keyframes titleBreak {
+
+    0%, 70%, 100% {
+        transform: translate(0);
+    }
+
+    71% {
+        transform: translate(-10px,0);
+        text-shadow:
+            7px 0 #555;
+    }
+
+    72% {
+        transform: translate(8px,2px);
+        text-shadow:
+            -6px 0 #333;
+    }
+
+    73% {
+        transform: translate(0);
+    }
+
+}
+
+
+.subtitle {
+
+    margin-top: 15px;
+
+    color: #4e4e4e;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+}
+
+
+.message {
+
+    margin-bottom: 40px;
+
+    color: #777;
+
+    font-size: 13px;
+
+    letter-spacing: 6px;
+
+    animation:
+        flicker 6s steps(1) infinite;
+}
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+.countdown {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+}
+
+
+.count-box {
+
+    width: 155px;
+
+    padding: 24px 10px;
+
+    border: 1px solid #292929;
+
+    background: rgba(0,0,0,.45);
+
+    box-shadow:
+        inset 0 0 30px rgba(255,255,255,.015);
+
+    animation:
+        boxBreak 9s steps(1) infinite;
+}
+
+
+@keyframes boxBreak {
+
+    0%, 81%, 100% {
+        transform: translate(0);
+    }
+
+    82% {
+        transform: translate(-4px,0);
+    }
+
+    83% {
+        transform: translate(5px,1px);
+    }
+
+    84% {
+        transform: translate(0);
+    }
+
+}
+
+
+.count-box span {
+
+    display: block;
+
+    color: #ddd;
+
+    font-size: 55px;
+
+    letter-spacing: 4px;
+}
+
+
+.count-box label {
+
+    display: block;
+
+    margin-top: 9px;
+
+    color: #444;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+}
+
+
+.separator {
+
+    color: #555;
+
+    font-size: 30px;
+
+    animation:
+        separatorFlicker 3s steps(1) infinite;
+}
+
+
+@keyframes separatorFlicker {
+
+    0%, 70%, 100% {
+        opacity: 1;
+    }
+
+    71% {
+        opacity: 0;
+    }
+
+    72% {
+        opacity: 1;
+    }
+
+    73% {
+        opacity: 0;
+    }
+
+}
+
+
+.classified {
+
+    width: min(500px, 90%);
+
+    margin: 55px auto 0;
+
+    padding: 18px;
+
+    border-top: 1px solid #292929;
+
+    border-bottom: 1px solid #292929;
+}
+
+
+.classified-header {
+
+    color: #444;
+
+    font-size: 9px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 15px;
+}
+
+
+.classified-text {
+
+    color: #777;
+
+    font-size: 13px;
+
+    letter-spacing: 5px;
+
+    animation:
+        flicker 8s steps(1) infinite;
+}
+
+
+.footer-warning {
+
+    margin-top: 45px;
+
+    color: #333;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+}
+
+
+.released {
+
+    color: #ddd;
+
+    font-size: 35px;
+
+    letter-spacing: 7px;
+
+    animation:
+        textGlitch 1s steps(1) infinite;
+}
+
+
+/* =========================
+   SYSTEM BREAK
+========================= */
+
+.system-break {
+
+    animation:
+        systemBreak .7s steps(5);
+}
+
+
+@keyframes systemBreak {
+
+    0% {
+        filter: none;
+    }
+
+    20% {
+        filter: contrast(3);
+        transform: translate(-8px);
+    }
+
+    40% {
+        filter: brightness(2);
+        transform: translate(7px);
+    }
+
+    60% {
+        filter: contrast(5);
+        transform: translate(-4px);
+    }
+
+    80% {
+        filter: brightness(.2);
+        transform: translate(5px);
+    }
+
+    100% {
+        filter: none;
+        transform: translate(0);
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .terminal {
+        padding: 50px 20px;
+    }
+
+    .hud {
+        font-size: 7px;
+    }
+
+    .top-left {
+        left: 10px;
+    }
+
+    .top-right {
+        right: 10px;
+    }
+
+    .bottom-left {
+        left: 10px;
+    }
+
+    .bottom-right {
+        right: 10px;
+    }
+
+    .input-box {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    input {
+        border-right: 1px solid #3b3b3b;
+    }
+
+    button {
+        width: 100%;
+        height: 48px;
+    }
+
+    .countdown {
+        gap: 6px;
+    }
+
+    .count-box {
+        width: 75px;
+        padding: 15px 5px;
+    }
+
+    .count-box span {
+        font-size: 28px;
+    }
+
+    .count-box label {
+        font-size: 7px;
+    }
+
+    .separator {
+        font-size: 18px;
+    }
+
+}
